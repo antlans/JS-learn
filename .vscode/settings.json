@@ -1,0 +1,6 @@
+{
+    "editor.fontFamily": "Hack, Consolas, Menlo, Monaco, 'Courier New', monospace",
+    "editor.stablePeek": true,
+    "editor.detectIndentation": false,
+    "editor.fontLigatures": true
+}
