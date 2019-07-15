@@ -1,23 +1,25 @@
-var budget = prompt ("Какой ваш бюджет на месяц?", 100000); 
-var date = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
-var expenses1 = prompt ("Введите обязательную статью расходов в этом месяце", ""); //название обязательной статьи
-var expenses2 = prompt ("Во сколько обойдется?", "");                              //сумма обязательноЙ статьи         
+"use strict";
 
-var appData = {
+let money = prompt ("Какой ваш бюджет на месяц?", 100000); 
+let time = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
+let expensesName = prompt ("Название статьи расходов в этом месяце", ""); //название обязательной статьи
+let expensesValue = prompt ("Во сколько обойдется?", "");                  //сумма обязательноЙ статьи         
 
-    appBudget: budget,                  //получаем бюджет
-    appDate: date,                      //получем дату
-    appExpenses: {
-        [expenses1] : expenses2
+let appData = {
+
+    budget: money,                  //получаем бюджет
+    date: time,                      //получем дату
+    expenses: {
+        [expensesName] : expensesValue
     },                                  //обязательные расходы
-    appOptionalExpenses: null,          //необязательные расходы
-    appIncome: null,                    //дополнительные доходы
-    appSavings: false,                   //остаток
+    optionalExpenses: null,          //необязательные расходы
+    income: null,                    //дополнительные доходы
+    savings: false,                  //остаток
 
 };
 
 console.log (appData);
 
-var result = (appData.appBudget - appData.appExpenses[expenses1])/30;
+let result = (appData.budget - appData.expenses[expensesName])/30;
 console.log (result);
 alert (result);
