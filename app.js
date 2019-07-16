@@ -21,9 +21,9 @@ for ( let i = 0; i < 2; i++) {
     if ((typeof(expensesName)) === 'string' && 
         (typeof(expensesName)) != null && 
         (typeof(expensesValue)) != null && 
-        (typeof(expensesValue)) === 'number') &&
+        (typeof(expensesValue)) === 'number' &&
         expensesName != '' &&
-        expensesValue != '' {
+        expensesValue != '' ) {
         appData.expenses[expensesName] = expensesValue;
     }
    
