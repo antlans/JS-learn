@@ -1,27 +1,25 @@
-let money,
-    time;
-
+// Главный объекта
 let appData = {
-    budget: money,                   //получаем бюджет от пользователя
+    budget: '',                   //получаем бюджет от пользователя
     expenses: {},                    //обязательные расходы
     optionalExpenses: null,          //необязательные расходы
     income: null,                    //дополнительные доходы
-    savings: true,                  //остаток
-    date: time,                      //получем дату
+    savings: true,                   //остаток (депозит)
+    date: '',                      //получем дату
 };
 
+//Функция для уточнения суммы дохода и даты
 function start() {
-    money = +prompt ("Ваша зарплата в месяц?", 100000); 
-    time = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
+    appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
+    appData.date = +prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
 
-    while(isNaN(money) || money == "" || money == null) {
-        money = +prompt ("Ваша зарплата в месяц?", 100000); 
+    while(isNaN(appData.budget) || appData.budget == "" || appData.budget == null) {
+        appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
     }
 }
 start();
-       
-
-
+ 
+// Функция для получения сумм расходов за месяц
 function chooseExpenses() {
     for ( let i = 0; i < 1; i++ ) {
 
@@ -37,11 +35,15 @@ function chooseExpenses() {
 }
 chooseExpenses();
 
+// Функция расчета дневного бюджета (без учета затрат)
+function detectDayBudget() {
+    appData.moneyPerDay = +(appData.budget / 30).toFixed(1); //создаем свойство объекта 
+    alert ("Ежедневный бюджет: " + appData.moneyPerDay);
+}
+detectDayBudget();
 
-appData.moneyPerDay = (appData.budget / 30).toFixed(1);
-console.log (appData.moneyPerDay);
-alert ("Ежедневный бюджет:" + appData.moneyPerDay);
 
+// Расчет уровня доходности
 if (appData.moneyPerDay < 500) {
     console.log ("Low");
 } else if (appData.moneyPerDay >= 500 && appData.moneyPerDay < 2000) {
@@ -52,15 +54,15 @@ if (appData.moneyPerDay < 500) {
     console.log ("Error");
 };
 
-
+// Расчет суммы накоплений
 function checkSavings() {
     if (appData.savings == true) {
         let save = +prompt("Какова сумма накоплений?");
         let percent = +prompt("Под какой процент?");
 
-        appData.monthIncome = save/100/12*percent;
+        appData.monthIncome = (save/100/12*percent).toFixed(1);
 
-        alert('Доход в месяц:' + appData.monthIncome);
+        alert('Доход в месяц: ' + appData.monthIncome);
     }
 }
 checkSavings();
