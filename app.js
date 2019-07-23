@@ -11,7 +11,7 @@ let appData = {
 //Функция для уточнения суммы дохода и даты
 function start() {
     appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
-    appData.date = +prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
+    appData.date = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
 
     while(isNaN(appData.budget) || appData.budget == "" || appData.budget == null) {
         appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
