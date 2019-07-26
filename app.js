@@ -17,13 +17,11 @@ let appData = {
     income: [],                  // дополнительные доходы
     savings: true,                 // остаток (депозит)
     date: '',                      // получем дату
-    
     // Функция расчета дневного бюджета (без учета затрат)
     detectDayBudget: function() {
         appData.moneyPerDay = +(appData.budget / 30).toFixed(1); //создаем свойство объекта 
         alert ("Ежедневный бюджет: " + appData.moneyPerDay);
     },
-
     // Основные расходы за месяц
     chooseExpenses: function() {
         for ( let i = 0; i < 1; i++ ) {
@@ -38,7 +36,6 @@ let appData = {
             }
         }
     },
-
     // Дополнительные расходы замесяц 
     chooseOptExpenses: function() {
         for ( let i = 0; i < 3; i++ ) {
@@ -52,7 +49,6 @@ let appData = {
             }
         }
     },
-
     // Расчет уровня состояния
     detectLevel: function () { 
         if (appData.moneyPerDay < 500) {
@@ -65,7 +61,6 @@ let appData = {
             console.log ("Error");
         };
     },
-
     // Расчет суммы накоплений
     checkSavings: function() {
         if (appData.savings == true) {
@@ -80,5 +75,3 @@ let appData = {
 };
  
 console.log (appData);
-
-
