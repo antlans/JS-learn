@@ -71,6 +71,11 @@ let appData = {
     
             alert('Доход в месяц: ' + appData.monthIncome);
         }
+    },
+
+    chooseIncome: function() {
+        let items = prompt('Что принесет дополнительным доход? (Необходимо перечилсить через запятую)', "");
+        appData.income = items.split(', ');
     }
 };
  
