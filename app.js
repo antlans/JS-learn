@@ -1,20 +1,11 @@
-// Сумма дохода в месяц с указанием даты
-function start() {
-    appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
-    appData.date = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
 
-    while(isNaN(appData.budget) || appData.budget == "" || appData.budget == null) {
-        appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
-    }
-}
-start();
 
 // Главный объекта
 let appData = {
     budget: '',                    // получаем бюджет от пользователя
     expenses: {},                  // обязательные расходы
     optionalExpenses: {},          // необязательные расходы
-    income: [],                  // дополнительные доходы
+    income: [],                    // дополнительные доходы
     savings: true,                 // остаток (депозит)
     date: '',                      // получем дату
     // Функция расчета дневного бюджета (без учета затрат)
@@ -73,10 +64,34 @@ let appData = {
         }
     },
 
+    // Дополнительный доход
     chooseIncome: function() {
-        let items = prompt('Что принесет дополнительным доход? (Необходимо перечилсить через запятую)', "");
-        appData.income = items.split(', ');
+        
+        for ( let i = 0; i < 1; i++ ) {
+            let items = prompt('Что принесет дополнительным доход? (Необходимо перечилсить через запятую)', "");
+            if (items != '') {
+               
+                appData.income = items.split(', ');
+                appData.income.push(prompt('Что-то еще?'));
+                appData.income.sort();
+            } else {
+                i = i - 1;
+            }
+        }
     }
+
+    /* && (typeof(items)) != null && (typeof(items)) === 'sting' */
 };
+
+// Сумма дохода в месяц с указанием даты
+function start() {
+    appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
+    appData.date = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
+
+    while(isNaN(appData.budget) || appData.budget == "" || appData.budget == null) {
+        appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
+    }
+}
+start();
  
 console.log (appData);
