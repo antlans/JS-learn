@@ -27,6 +27,7 @@ let appData = {
             }
         }
     },
+    
     // Дополнительные расходы замесяц 
     chooseOptExpenses: function() {
         for ( let i = 0; i < 3; i++ ) {
