@@ -1,11 +1,30 @@
+'use strict'
+let startButton = document.getElementById('start');
+let budgetValue = document.getElementsByClassName('budget-value')[0];
+let dayBudgetValue = document.getElementsByClassName('daybudget-value')[0];
+let levelValue = document.getElementsByClassName('level-value')[0];
+let expensesValue = document.getElementsByClassName('expenses-value')[0];
+let optionalExpensesValue = document.getElementsByClassName('optionalexpenses-value')[0];
+let incomeValue = document.getElementsByClassName('income-value')[0];
+let monthsavingsValue = document.getElementsByClassName('monthsavings-value')[0];
+let yearsavingsValue = document.getElementsByClassName('yearsavings-value')[0];
+let yearValue = document.getElementsByClassName('year-value')[0];
+let monthValue = document.getElementsByClassName('month-value')[0];
+let dayValue = document.getElementsByClassName('day-value')[0];
+let expensesItem = document.getElementsByClassName('expenses-item');
+let buttonExpensesItemBtn = document.getElementsByTagName('button')[0];
+let buttonOptionalExpensesBtn = document.getElementsByTagName('button')[1];
+let buttonCountBudgetBtn = document.getElementsByTagName('button')[2];
+let optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item');
 
+console.log(optionalExpensesItem);
 
 // Главный объекта
 let appData = {
     budget: '',                    // получаем бюджет от пользователя
     expenses: {},                  // обязательные расходы
     optionalExpenses: {},          // необязательные расходы
-    income: [],                    // дополнительные доходы
+    income: [],                    // массив дополнительных доходов
     savings: true,                 // остаток (депозит)
     date: '',                      // получем дату
     // Функция расчета дневного бюджета (без учета затрат)
@@ -18,7 +37,7 @@ let appData = {
         for ( let i = 0; i < 1; i++ ) {
 
             let expensesName = prompt ("Название статьи расходов в этом месяце", "");    //название обязательной статьи
-            let expensesValue = +prompt ("Каковы затраты на эту статью расходов?", "");  //сумма обязательноЙ статьи  
+            let expensesValue = +prompt ("Каковы затраты на эту статью расходов?", "");  //сумма обязательной статьи  
         
             if ((typeof(expensesName)) === 'string' && (typeof(expensesName)) != null && (typeof(expensesValue)) != null && (typeof(expensesValue)) === 'number' && expensesName != '' && expensesValue != '' && expensesName.length < 50 ) {
                 appData.expenses[expensesName] = expensesValue;
