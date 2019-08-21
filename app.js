@@ -17,7 +17,6 @@ let buttonOptionalExpensesBtn = document.getElementsByTagName('button')[1];
 let buttonCountBudgetBtn = document.getElementsByTagName('button')[2];
 let optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item');
 
-//
 
 console.log(optionalExpensesItem);
 
