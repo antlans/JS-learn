@@ -12,13 +12,10 @@ let yearValue = document.getElementsByClassName('year-value')[0];
 let monthValue = document.getElementsByClassName('month-value')[0];
 let dayValue = document.getElementsByClassName('day-value')[0];
 let expensesItem = document.getElementsByClassName('expenses-item');
-let buttonExpensesItemBtn = document.getElementsByTagName('button')[0];
-let buttonOptionalExpensesBtn = document.getElementsByTagName('button')[1];
-let buttonCountBudgetBtn = document.getElementsByTagName('button')[2];
+let expensesBtn = document.getElementsByTagName('button')[0];
+let optionalExpensesBtn = document.getElementsByTagName('button')[1];
+let countBudgetBtn = document.getElementsByTagName('button')[2];
 let optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item');
-
-
-console.log(optionalExpensesItem);
 
 // Главный объекта
 let appData = {
@@ -28,27 +25,14 @@ let appData = {
     income: [],                    // массив дополнительных доходов
     savings: true,                 // остаток (депозит)
     date: '',                      // получем дату
-    // Функция расчета дневного бюджета (без учета затрат)
+	
+	// Функция расчета дневного бюджета (без учета затрат)
     detectDayBudget: function() {
         appData.moneyPerDay = +(appData.budget / 30).toFixed(1); //создаем свойство объекта 
         alert ("Ежедневный бюджет: " + appData.moneyPerDay);
     },
-    // Основные расходы за месяц
-    chooseExpenses: function() {
-        for ( let i = 0; i < 1; i++ ) {
 
-            let expensesName = prompt ("Название статьи расходов в этом месяце", "");    //название обязательной статьи
-            let expensesValue = +prompt ("Каковы затраты на эту статью расходов?", "");  //сумма обязательной статьи  
-        
-            if ((typeof(expensesName)) === 'string' && (typeof(expensesName)) != null && (typeof(expensesValue)) != null && (typeof(expensesValue)) === 'number' && expensesName != '' && expensesValue != '' && expensesName.length < 50 ) {
-                appData.expenses[expensesName] = expensesValue;
-            } else {
-                i = i - 1;
-            }
-        }
-    },
-
-    // Дополнительные расходы замесяц 
+    // Дополнительные расходы за месяц 
     chooseOptExpenses: function() {
         for ( let i = 0; i < 3; i++ ) {
 
@@ -60,7 +44,8 @@ let appData = {
                 i = i - 1;
             }
         }
-    },
+	},
+	
     // Расчет уровня состояния
     detectLevel: function () { 
         if (appData.moneyPerDay < 500) {
@@ -72,7 +57,8 @@ let appData = {
         } else {
             console.log ("Error");
         };
-    },
+	},
+	
     // Расчет суммы накоплений
     checkSavings: function() {
         if (appData.savings == true) {
@@ -111,19 +97,48 @@ let appData = {
 };
 
 // Сумма дохода в месяц с указанием даты
-function start() {
+startButton.addEventListener('click', function () {
+	appData.date = prompt ("Введите дату в формате: YYYY-MM-DD", "");
     appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
-    appData.date = prompt ("Введите дату в формате: YYYY-MM-DD", ""); 
+     
 
     while(isNaN(appData.budget) || appData.budget == "" || appData.budget == null) {
         appData.budget = +prompt ("Ваша зарплата в месяц?", 100000); 
-    }
-}
-start();
+	}
+	
+	budgetValue.textContent = appData.budget.toFixed();
+	yearValue.value = new Date(Date.parse(appData.date)).getFullYear();
+	monthValue.value = new Date(Date.parse(appData.date)).getMonth() + 1;
+	dayValue.value = new Date(Date.parse(appData.date)).getDate();
+});
 
-console.log('Наша программа включает в себя данные: ');
-for (let key in appData) {
-    console.log(key + ': ' + appData[key]);
-};
+expensesBtn.addEventListener('click', function() {
+	let sum = 0;
+
+	for ( let i = 0; i < expensesItem.length; i++ ) {
+		
+		if (typeof expensesItem[i+1] !== 'undefined') {
+			let a = expensesItem[i].value, //название обязательной статьи  
+				b = expensesItem[++i].value; //сумма обязательной статьи  
+			console.log(a);
+			console.log(b);
+			if ((typeof(a)) === 'string' && 
+				(typeof(a)) != null && 
+				(typeof(b)) != null && 
+				a != '' && 
+				b != '' && 
+				a.length < 50 ) {
+				appData.expenses[a] = b;
+				sum += +b;
+			} else {
+				i = i - 1;
+			}
+		}
+
+		
+	}
+	expensesValue.textContent = sum;
+
+});
  
-console.log (appData);
+// console.log (appData);
