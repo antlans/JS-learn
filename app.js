@@ -31,21 +31,6 @@ let appData = {
         appData.moneyPerDay = +(appData.budget / 30).toFixed(1); //создаем свойство объекта 
         alert ("Ежедневный бюджет: " + appData.moneyPerDay);
     },
-
-    // Дополнительные расходы за месяц 
-    chooseOptExpenses: function() {
-        for ( let i = 0; i < 3; i++ ) {
-
-            let expensesValueOpt = +prompt ("Укажите дополнительные расходы", "");  //сумма обязательноЙ статьи  
-        
-            if ((typeof(expensesValueOpt)) != null && (typeof(expensesValueOpt)) === 'number' && expensesValueOpt != '' ) {
-                appData.optionalExpenses[i + 1] = expensesValueOpt;
-            } else {
-                i = i - 1;
-            }
-        }
-	},
-	
     // Расчет уровня состояния
     detectLevel: function () { 
         if (appData.moneyPerDay < 500) {
@@ -112,6 +97,7 @@ startButton.addEventListener('click', function () {
 	dayValue.value = new Date(Date.parse(appData.date)).getDate();
 });
 
+// Обязательные расходы
 expensesBtn.addEventListener('click', function() {
 	let sum = 0;
 
@@ -119,7 +105,7 @@ expensesBtn.addEventListener('click', function() {
 		
 		if (typeof expensesItem[i+1] !== 'undefined') {
 			let a = expensesItem[i].value, //название обязательной статьи  
-				b = expensesItem[++i].value; //сумма обязательной статьи  
+				b = +expensesItem[++i].value; //сумма обязательной статьи  
 			console.log(a);
 			console.log(b);
 			if ((typeof(a)) === 'string' && 
@@ -129,7 +115,7 @@ expensesBtn.addEventListener('click', function() {
 				b != '' && 
 				a.length < 50 ) {
 				appData.expenses[a] = b;
-				sum += +b;
+				sum += b;
 			} else {
 				i = i - 1;
 			}
@@ -140,5 +126,24 @@ expensesBtn.addEventListener('click', function() {
 	expensesValue.textContent = sum;
 
 });
- 
+
+// Дополнительные расходы
+ optionalExpensesBtn.addEventListener('click', function() {
+
+	let sum = 0;
+
+	for ( let i = 0; i < optionalExpensesItem.length; i++ ) {
+
+		let a = +optionalExpensesItem[i].value;  //сумма обязательноЙ статьи  
+	
+		if ((typeof(a)) != null && (typeof(a)) === 'number' && a != '' ) {
+			appData.optionalExpenses[i] = a;
+			sum += a;
+		} else {
+			i = i - 1;
+		}
+	}
+	optionalExpensesValue.textContent = sum;
+
+ });
 // console.log (appData);
