@@ -16,6 +16,12 @@ let expensesBtn = document.getElementsByTagName('button')[0];
 let optionalExpensesBtn = document.getElementsByTagName('button')[1];
 let countBudgetBtn = document.getElementsByTagName('button')[2];
 let optionalExpensesItem = document.querySelectorAll('.optionalexpenses-item');
+let incomeItem = document.querySelector('.choose-income'); 
+let checkSavings = document.getElementById('savings');
+let sumValue = document.getElementById('sum');
+let percentValue = document.getElementById('percent');
+
+
 
 // Главный объекта
 let appData = {
@@ -23,62 +29,8 @@ let appData = {
     expenses: {},                  // обязательные расходы
     optionalExpenses: {},          // необязательные расходы
     income: [],                    // массив дополнительных доходов
-    savings: true,                 // остаток (депозит)
+    savings: false,                 // остаток (депозит)
     date: '',                      // получем дату
-	
-	// Функция расчета дневного бюджета (без учета затрат)
-    detectDayBudget: function() {
-        appData.moneyPerDay = +(appData.budget / 30).toFixed(1); //создаем свойство объекта 
-        alert ("Ежедневный бюджет: " + appData.moneyPerDay);
-    },
-    // Расчет уровня состояния
-    detectLevel: function () { 
-        if (appData.moneyPerDay < 500) {
-            console.log ("Ты бедный");
-        } else if (appData.moneyPerDay >= 500 && appData.moneyPerDay <= 2000) {
-            console.log ("Ты средний класс");
-        } else if (appData.moneyPerDay > 2000) {
-            console.log ("Ты богатый");
-        } else {
-            console.log ("Error");
-        };
-	},
-	
-    // Расчет суммы накоплений
-    checkSavings: function() {
-        if (appData.savings == true) {
-            let save = +prompt("Какова сумма накоплений?");
-            let percent = +prompt("Под какой процент?");
-    
-            appData.monthIncome = +(save/100/12*percent).toFixed(1);
-    
-            alert('Доход в месяц: ' + appData.monthIncome);
-        }
-    },
-
-    // Дополнительный доход
-    chooseIncome: function() {
-        
-        for ( let i = 0; i < 1; i++ ) {
-            let items = prompt('Что принесет дополнительным доход? (Необходимо перечилсить через запятую)', "");
-            if (items != '') {
-               
-                appData.income = items.split(', ');
-                appData.income.push(prompt('Что-то еще?'));
-                appData.income.sort();
-
-                console.log("Способы дополнительного заработка:");
-                appData.income.forEach(myFunc);
-                function myFunc(item, index) {
-                    console.log((index+1) + ': ' + item);
-                };
-            } else {
-                i = i - 1;
-            }
-        }
-    }
-
-    /* && (typeof(items)) != null && (typeof(items)) === 'sting' */
 };
 
 // Сумма дохода в месяц с указанием даты
@@ -97,13 +49,61 @@ startButton.addEventListener('click', function () {
 	dayValue.value = new Date(Date.parse(appData.date)).getDate();
 });
 
+
+incomeItem.addEventListener('input', function() {
+	let items = incomeItem.value;
+	appData.income = items.split(', ');
+	incomeValue.textContent = appData.income;
+});
+
+checkSavings.addEventListener('click', function() {
+	if (appData.savings == true) {
+		appData.savings = false;
+	} else {
+		appData.savings = true;
+	}
+});
+
+
+// Накопления
+sumValue.addEventListener('input', function() {
+	if (appData.savings == true) {
+
+		let sum = +sumValue.value;
+		let percent = +percentValue.value;
+
+		appData.monthIncome = (sum/100/12*percent).toFixed(1);
+		appData.yearIncome = (sum/100*percent).toFixed(1);
+
+		monthsavingsValue.textContent = appData.monthIncome;
+		yearsavingsValue.textContent = appData.yearIncome;
+
+
+
+	}
+});
+
+percentValue.addEventListener('input', function() {
+	if (appData.savings == true) {
+		let sum = +sumValue.value;
+		let percent = +percentValue.value;
+
+		appData.monthIncome = (sum/100/12*percent).toFixed(1);
+		appData.yearIncome = (sum/100*percent).toFixed(1);
+
+		monthsavingsValue.textContent = appData.monthIncome;
+		yearsavingsValue.textContent = appData.yearIncome;
+		
+	}
+});
+
 // Обязательные расходы
 expensesBtn.addEventListener('click', function() {
 	let sum = 0;
 
 	for ( let i = 0; i < expensesItem.length; i++ ) {
 		
-		if (typeof expensesItem[i+1] !== 'undefined') {
+		if (typeof expensesItem[i+1] !== undefined) {
 			let a = expensesItem[i].value, //название обязательной статьи  
 				b = +expensesItem[++i].value; //сумма обязательной статьи  
 			console.log(a);
@@ -146,4 +146,22 @@ expensesBtn.addEventListener('click', function() {
 	optionalExpensesValue.textContent = sum;
 
  });
+
+
+countBudgetBtn.addEventListener('click', function () {
+
+	appData.moneyPerDay = +(appData.budget / 30).toFixed(); //создаем свойство объекта 
+
+	dayBudgetValue.textContent = appData.moneyPerDay;
+
+	if (appData.moneyPerDay < 500) {
+		levelValue.textContent = "Ты бедный";
+	} else if (appData.moneyPerDay >= 500 && appData.moneyPerDay <= 2000) {
+		levelValue.textContent = "Ты средний класс";
+	} else if (appData.moneyPerDay > 2000) {
+		levelValue.textContent = "Ты богатый";
+	} else {
+		levelValue.textContent = "Error";
+	};
+});
 // console.log (appData);
