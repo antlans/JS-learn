@@ -22,7 +22,6 @@ let sumValue = document.getElementById('sum');
 let percentValue = document.getElementById('percent');
 
 
-
 // Главный объекта
 let appData = {
     budget: '',                    // получаем бюджет от пользователя
