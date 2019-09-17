@@ -76,9 +76,6 @@ sumValue.addEventListener('input', function() {
 
 		monthsavingsValue.textContent = appData.monthIncome;
 		yearsavingsValue.textContent = appData.yearIncome;
-
-
-
 	}
 });
 
@@ -91,8 +88,7 @@ percentValue.addEventListener('input', function() {
 		appData.yearIncome = (sum/100*percent).toFixed(1);
 
 		monthsavingsValue.textContent = appData.monthIncome;
-		yearsavingsValue.textContent = appData.yearIncome;
-		
+		yearsavingsValue.textContent = appData.yearIncome;	
 	}
 });
 
@@ -119,8 +115,6 @@ expensesBtn.addEventListener('click', function() {
 				i = i - 1;
 			}
 		}
-
-		
 	}
 	expensesValue.textContent = sum;
 
@@ -143,7 +137,6 @@ expensesBtn.addEventListener('click', function() {
 		}
 	}
 	optionalExpensesValue.textContent = sum;
-
  });
 
 
