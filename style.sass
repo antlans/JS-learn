@@ -2,13 +2,7 @@ $text-color: #262626
 $active: #ff6a30
 $result: #61a654
 
-@mixin header 
-    margin: 13px 0px
-    font-weight: 500
-    font-size: 14px
-    color: $text-color
-    text-align: center
-@mixin input
+input[type='text']
     height: 35px
     width: calc((100%/2) - 4px)
     border-radius: 2.5px
@@ -36,7 +30,7 @@ $result: #61a654
     box-sizing: border-box
     margin: 0
     padding: 0
-    font-family: 'Ubuntu';
+    font-family: 'Ubuntu'
     outline: none
 a	
 	color:inherit
@@ -49,10 +43,10 @@ a
 		text-decoration: none
 		color:inherit
 	
+
 	&:focus
 		text-decoration: none
 		color:inherit
-	
 	&:active
 		text-decoration: none
 		color:inherit
@@ -82,9 +76,12 @@ a
     padding-top: 40px
 .data
     .choose-expenses, .optionalexpenses, .count-budget, .choose-income-label
-        @include header
+        margin: 13px 0px
+        font-weight: 500
+        font-size: 14px
+        color: $text-color
+        text-align: center
     .expenses-item, .optionalexpenses-item, .choose-income, .choose-sum, .choose-percent
-        @include input
         &::placeholder
             opacity: .3
     .expenses-item-btn, .optionalexpenses-btn, .count-budget-btn
@@ -145,7 +142,6 @@ a
             font-size: 16px
             font-weight: 500
         .year-value, .month-value, .day-value
-            @include input
             width: 80px
             height: 30px
             margin-left: 25px
