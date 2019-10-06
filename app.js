@@ -157,3 +157,15 @@ countBudgetBtn.addEventListener('click', function () {
 	};
 });
 // console.log (appData);
+
+
+
+
+//styles
+
+let aside = document.getElementsByTagName('aside')[0],
+    main = document.getElementsByTagName('main')[0];
+aside.style.top = '60px';
+main.style.top = '60px';
+main.style.left = '224px';
+
