@@ -75,11 +75,41 @@ a
     display: flex
     padding: 0 10px
     justify-content: space-between
-    &__left-side
+    align-items: center
+    &__trigger
+        display: flex
+        align-items: center
+        position: relative
+        justify-content: center
+        width: 30px
+        height: 30px
+        cursor: pointer
+        >span
+            display: inline
+            background-color: black
+            width: 10px
+            height: 2px
+            position: relative
+            &::before
+                content: ''
+                margin-bottom: 4px
+                position: absolute
+                background-color: black
+                width: 10px
+                height: 2px
+                top: 10px
+            &::after
+                content: ''
+                margin-top: 4px
+                position: absolute
+                background-color: black
+                width: 10px
+                height: 2px
+    &__left
         display: flex
         align-items: center
         justify-content: flex-start
-    &__right-side
+    &__right
         display: flex
         align-items: center
         justify-content: flex-end
@@ -109,6 +139,9 @@ main
     position: absolute
     padding: 20px
     background: var(--bg-main)
+    height: 100%
+    min-height: 100%
+
     .section-data
         display: flex
 
