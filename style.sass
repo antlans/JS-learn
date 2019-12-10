@@ -1,19 +1,22 @@
-*
+*  
     --bg-main: #f3f5f7
     --bg-header: #ffffff
+    --bg-button: rgb(0, 135, 243)
+    --bg-button-hover: rgb(0, 126, 229)
     --shadow: 0 1px 10px 0 rgba(48,53,97,.15), 0 0 15px 0 #d0d7dd
     --shadow-lighter: 0px 2.5px 10px 0 rgba(1, 0, 42, 0.1)
     --text-color: #262626
+    --text-color-link: rgb(112, 177, 230)
     --active: #ff6a30
     --result: #61a654
-    --transition: transform .3s ease,-webkit-transform .3s ease
-
+    --transition: all .3s ease-in-out
     box-sizing: border-box
     margin: 0
     padding: 0
-    font-family: Roboto,'Ubuntu'
+    font-family: system-ui,'Roboto', sans-serif
     outline: none
     font-size: 14px
+
 
 input[type='text']
     height: 35px
@@ -32,12 +35,14 @@ input[type='text']
     margin: 0 auto
     border: none
     border-radius: 2.5px
-    background-image: linear-gradient(336deg, #ffbd75, #ff964b), linear-gradient(#ffffff, #ffffff)
+    // background-image: linear-gradient(336deg, #ffbd75, #ff964b), linear-gradient(#ffffff, #ffffff)
+    background: var(--bg-button)
     box-shadow: var(--shadow-lighter)
     color: #fff
     font-weight: 100
     font-size: 12px
     cursor: pointer
+    color: white
 
 a
 	color: inherit
@@ -76,35 +81,42 @@ a
     padding: 0 10px
     justify-content: space-between
     align-items: center
+
     &__trigger
         display: flex
         align-items: center
         position: relative
         justify-content: center
-        width: 30px
-        height: 30px
+        width: 48px
+        height: 48px
         cursor: pointer
+        border-radius: 50%
+        transition: var(--transition)
         >span
             display: inline
             background-color: black
-            width: 10px
+            width: 15px
             height: 2px
             position: relative
             &::before
                 content: ''
-                margin-bottom: 4px
+                top: -5px
                 position: absolute
                 background-color: black
-                width: 10px
+                width: 15px
                 height: 2px
-                top: 10px
+               
+               
             &::after
                 content: ''
-                margin-top: 4px
                 position: absolute
                 background-color: black
-                width: 10px
+                width: 15px
                 height: 2px
+                top: 5px
+        &:hover, &.active
+            background-color: rgba(60,64,67,0.08)
+            outline: none     
     &__left
         display: flex
         align-items: center
@@ -113,41 +125,64 @@ a
         display: flex
         align-items: center
         justify-content: flex-end
-    
-.title
-    width: 100%
-    margin-top: 30px
-    font-weight: 500
-    font-size: 20px
-    color: var(--text-color)
-    text-align: center
 
-aside
-    width: 224px
-    background: white
+.content
+    display: flex
+    justify-content: flex-start 
+    top: 60px  
     position: fixed
-    bottom: 0
-    left: 0
-    box-shadow: var(--shadow)
+    height: 100%
+aside
+    width: 72px
+    background: white
+  
     transition: var(--transition)
-    z-index: 9
-    padding: 10px
-    transition: all 0.3s easy-in-out 
+    padding: 10px 
+    &.active
+        width: 240px
+        .li-content
+            opacity: 1
+    li
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        overflow: hidden
+        height: 48px
+        span
+            min-width: 48px
+            height: 48px
+            display: block
+            background: red
+        .li-content
+            opacity: 0
+            overflow: visible
+            text-overflow: ellipsis
+            white-space: nowrap
     
 main
-    z-index: 0
-    overflow: hidden
-    position: absolute
+    width: calc(100% - 72px)
     padding: 20px
     background: var(--bg-main)
-    height: calc(100% - 60px)
-    transition: 
+    overflow-y: auto
+    transition: var(--transition) 
+   
+    &.active
+        width: calc(100% - 240px)
+
+    .title
+        width: 100%
+        margin-top: 30px
+        font-weight: 500
+        font-size: 20px
+        color: var(--text-color)
+        text-align: center
 
     .section-data
         display: flex
 
 
 .data 
+    width: 80%
     .choose-expenses, .optionalexpenses, .count-budget, .choose-income-label
         margin: 13px 0px
         font-weight: 500
@@ -185,7 +220,7 @@ main
         font-weight: 100
 
 .result
-    width: 50%
+    width: 20%
     &-table 
         display: flex
         flex-wrap: wrap

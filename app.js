@@ -160,12 +160,24 @@ countBudgetBtn.addEventListener('click', function () {
 
 
 
-
-//styles
-
-let aside = document.getElementsByTagName('aside')[0],
+document.addEventListener("DOMContentLoaded", function() {
+    //styles
+    /* let aside = document.getElementsByTagName('aside')[0],
     main = document.getElementsByTagName('main')[0];
-aside.style.top = '60px';
-main.style.top = '60px';
-main.style.left = '224px';
+    aside.style.top = '60px';
+    main.style.top = '60px'; */
+    
+
+    // active and deactive navigation panel
+    document.getElementById('header__trigger').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector('.header__trigger').classList.toggle('active'); 
+        document.querySelector('.nav').classList.toggle('active');
+        document.querySelector('.main').classList.toggle('active'); 
+    });
+
+});
+
+
+
 
