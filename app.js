@@ -176,6 +176,28 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector('.main').classList.toggle('active'); 
     });
 
+    // Tabs
+    // Documents - tabs
+    document.querySelectorAll('[data-tabs]').forEach(function(element){
+        element.addEventListener("click" , function(e) {
+            e.preventDefault();
+
+            // tabs
+            if(!element.classList.contains('active')) {
+                if(document.querySelector('.li-content.active'))
+                    document.querySelector(".li-content.active").classList.remove('active');
+                element.classList.add('active');
+            } 
+
+            //content
+            if(document.querySelector('.component.active'))
+                document.querySelector(".component.active").classList.remove('active');   
+            document.querySelector('.' + this.dataset.tabs).classList.add('active');
+
+        
+        });
+    });
+
 });
 
 
