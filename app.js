@@ -1,46 +1,47 @@
 'use strict';
 
-// Input
-let incomeItem = document.querySelector(".income__item"); // Зарплата
-let optionalIncomeItem = document.querySelector('.optional-income__item'); // Дополнительные доходы
-let expensesItem = document.querySelectorAll('.expenses__item');
-let expensesBtn = document.querySelector('.expenses__btn');
-let optionalExpensesItem = document.querySelectorAll('.optional-expenses__item');
-let optionalExpensesBtn = document.querySelector('.optional-expenses__btn');
-
-// Result
-let budgetValue = document.querySelector('.budget-value'); // Зарплата
-let incomeValue = document.getElementsByClassName('income-value')[0]; // Дополнительные доходы
-let expensesValue = document.querySelector('.expenses__value'); // Расходы
-let optionalExpensesValue = document.querySelector('.expenses-optional__value'); // Дополнительные расходы
-let dayBudgetValue = document.getElementsByClassName('daybudget-value')[0]; //бюджет на 1 день
-let levelValue = document.getElementsByClassName('level-value')[0]; //классификация состония доходов
-let monthsavingsValue = document.querySelector('.monthsavings__value'); // Накопления (месяц)
-let yearsavingsValue = document.querySelector('.yearsavings__value'); // Накопления (год)
-
-// Что-то связанное с датами (год, месяц, день)
-let yearValue = document.getElementsByClassName('year-value')[0];
-let monthValue = document.getElementsByClassName('month-value')[0];
-let dayValue = document.getElementsByClassName('day-value')[0];
-
-// Глобальный запуск расчета
-let startButton = document.getElementById('start');
-
-let countBudgetBtn = document.getElementsByTagName('button')[2];
-
-let checkSavings = document.getElementById('savings');
-let sumValue = document.getElementById('sum');
-let percentValue = document.getElementById('percent');
-
 // Главный объекта
 let appData = {
-    budget: '',                   // зарплата
+    income: '',                   // зарплата
     optionalIncome: [],           // массив дополнительных доходов        
-    expenses: {},                 // обязательные расходы
-    optionalExpenses: {},         // необязательные расходы              
+    expenses: [],                 // обязательные расходы        // необязательные расходы              
     savings: false,               // остаток (депозит)
     date: '',                     // получем дату
 };
+
+// Input
+let incomeItem              = document.querySelector(".income__item"); // Зарплата
+let optionalIncomeItem      = document.querySelector('.optional-income__item'); // Дополнительные доходы: Элемент
+let optionalIncomeList      = document.querySelector('.optional-income__list'); // Дополнительные доходы: Список
+let optionalIncomeBtn       = document.querySelector('.optional-income__form-btn'); // Дополнительные доходы: Кнопка добавления элемента 
+let optionalIncomeInput     = document.querySelector('.optional-income__form-input');
+
+let expensesList            = document.querySelector('.expenses__list'); // Получаем список для добавляемых элементов
+let expensesItem            = document.querySelector('.expenses__item'); // Получаем массив элементов из списка
+let expensesFormInput       = document.querySelector(".expenses__form-input"); // Элементы из формы создания
+let expensesFormBtn         = document.querySelector(".expenses__form-btn"); // Кнопка создания элементов
+let expensesBtn             = document.querySelector('.expenses__btn'); // Кнопка сложения результатов из списка
+
+// Result
+let budgetValue             = document.querySelector('.budget-value'); // Зарплата
+let incomeValue             = document.querySelector('.income-value'); // Дополнительные доходы
+let expensesValue           = document.querySelector('.expenses__value'); // Расходы
+
+let dayBudgetValue          = document.getElementsByClassName('daybudget-value')[0]; //бюджет на 1 день
+let levelValue              = document.getElementsByClassName('level-value')[0]; //классификация состония доходов
+let monthsavingsValue       = document.querySelector('.monthsavings__value'); // Накопления (месяц)
+let yearsavingsValue        = document.querySelector('.yearsavings__value'); // Накопления (год)
+
+// Что-то связанное с датами (год, месяц, день)
+let yearValue               = document.getElementsByClassName('year-value')[0];
+let monthValue              = document.getElementsByClassName('month-value')[0];
+let dayValue                = document.getElementsByClassName('day-value')[0];
+let checkSavings            = document.getElementById('savings');
+let sumValue                = document.getElementById('sum');
+let percentValue            = document.getElementById('percent');
+
+// Глобальный запуск расчета
+let startButton             = document.getElementById('start');
 
 // Сумма дохода в месяц с указанием даты
 startButton.addEventListener('click', function () {
@@ -48,34 +49,153 @@ startButton.addEventListener('click', function () {
   
 	yearValue.value = new Date(Date.parse(appData.date)).getFullYear();
 	monthValue.value = new Date(Date.parse(appData.date)).getMonth() + 1;
-	dayValue.value = new Date(Date.parse(appData.date)).getDate();
+    dayValue.value = new Date(Date.parse(appData.date)).getDate();
+    
+    appData.moneyPerDay = +(appData.income / 30).toFixed(); //создаем свойство объекта 
+
+	dayBudgetValue.textContent = appData.moneyPerDay;
+
+	if (appData.moneyPerDay < 500) {
+		levelValue.textContent = "Ты бедный";
+	} else if (appData.moneyPerDay >= 500 && appData.moneyPerDay <= 2000) {
+		levelValue.textContent = "Ты средний класс";
+	} else if (appData.moneyPerDay > 2000) {
+		levelValue.textContent = "Ты богатый";
+	} else {
+		levelValue.textContent = "Error";
+	}
 });
 
 // Фиксация и выведение основного дохода
 incomeItem.addEventListener('input', function() {
-    appData.budget = +incomeItem.value; 
+    appData.income = +incomeItem.value; // записываем полученное значение в параметр объекта
 
-	budgetValue.textContent = appData.budget.toFixed();
+	budgetValue.textContent = appData.income.toFixed(); // выводим значение в блоке result
 });
 
-// Подсчет и выведение дополнитеьлных расходов
-optionalIncomeItem.addEventListener('input', function() {
-    
-    let items = optionalIncomeItem.value; // получаю строку через ","
-    appData.optionalIncome = items.split(',').map(Number); // преобразование строки в массив из N кол-ва элементов
+// Создание элементов дополнительного дохода
+function createElements(optionalIncomeList, name, value) {
+    let newRow      = document.createElement('div'),
+        inputText   = document.createElement('input'),
+        inputValue  = document.createElement('input');
+
+    newRow.className = 'optional-income__row row';
+
+    inputText.className = "optional-income__item col-1";
+    inputText.value = name;
+    inputText.type = 'text';
+    inputText.disabled = 'disabled';
+
+    inputValue.className = "optional-income__item col-2";
+    inputValue.value = value;
+    inputValue.type = 'text';
+    inputValue.disabled = 'disabled';
+
    
+    newRow.appendChild(inputText);
+    newRow.appendChild(inputValue);
+
+    optionalIncomeList.appendChild(newRow);
+};
+
+// Запуск процесса создания элемента для дополнительных доходов
+optionalIncomeBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    let incomeFormText      = document.querySelector(".optional-income__form-input__text").value,
+        incomeFormValue     = +document.querySelector('.optional-income__form-input__value').value;
+ 
+    createElements(optionalIncomeList, incomeFormText, incomeFormValue);
+ 
+    // Запись нового элемента в объект
+    let optionalIncomeItem = {
+        name:   document.querySelector(".optional-income__form-input__text").value,
+        value: +document.querySelector('.optional-income__form-input__value').value
+    };
+    // Добавление эксземпляра в массив
+    appData.optionalIncome.push(optionalIncomeItem);
+
     // Сложение элементов массива
-    let sum = 0; 
-    for (let i = 0; i < appData.optionalIncome.length; i++) {
-        let a = appData.optionalIncome[i];
-        sum += a;
-    }; 
+    function calcIncome(arr, key) {
+        let sum = 0; 
+        arr.map(item => sum += parseFloat(item[key]));
+
+        return sum;
+    };
+
+    //Получаю значние, которое получается в результате выполнения функции calcIncome
+    let optionalIncomeSum = calcIncome(appData.optionalIncome, 'value');
 
     // Выведение в DOM суммы элементов массива
-    incomeValue.textContent = sum;
+    incomeValue.textContent = optionalIncomeSum;
+
+    // Сбрасываю значения для инпутов ввода
+    document.querySelector(".optional-income__form-input__text").value = '';
+    document.querySelector('.optional-income__form-input__value').value = '';   
 });
 
-checkSavings.addEventListener('click', function() {
+// Создание элементов расхода
+function createElementsExpenses(expensesList, name, value) {
+    let newRow      = document.createElement('div'),
+        inputText   = document.createElement('input'),
+        inputValue  = document.createElement('input');
+
+    newRow.className = 'expenses__row row';
+
+    inputText.className = "expenses__item col-1";
+    inputText.value = name;
+    inputText.type = 'text';
+    inputText.disabled = 'disabled';
+
+    inputValue.className = "expenses__item col-2";
+    inputValue.value = value;
+    inputValue.type = 'text';
+    inputValue.disabled = 'disabled';
+
+   
+    newRow.appendChild(inputText);
+    newRow.appendChild(inputValue);
+
+   expensesList.appendChild(newRow);
+};
+
+// Запуск процесса создания элементов для расходов
+expensesFormBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    let incomeFormText      = document.querySelector(".expenses__form-input__text").value,
+        incomeFormValue     = +document.querySelector('.expenses__form-input__value').value;
+ 
+    createElements(expensesList, incomeFormText, incomeFormValue);
+ 
+    // Запись нового элемента в объект
+    let expensesRealItem = {
+        name:   document.querySelector(".expenses__form-input__text").value,
+        value: +document.querySelector('.expenses__form-input__value').value
+    };
+
+    // Добавление эксземпляра в массив
+    appData.expenses.push(expensesRealItem);
+
+    // Сложение элементов массива
+    function calcIncome(arr, key) {
+        let sum = 0; 
+        arr.map(item => sum += parseFloat(item[key]));
+
+        return sum;
+    };
+
+    //Получаю значние, которое получается в результате выполнения функции calcIncome
+    let sumValue = calcIncome(appData.expenses, 'value');
+
+    // Выведение в DOM суммы элементов массива
+    expensesValue.textContent = sumValue;
+
+    // Сбрасываю значения для инпутов ввода
+    document.querySelector(".expenses__form-input__text").value = '';
+    document.querySelector('.expenses__form-input__value').value = '';   
+});
+
+// Накопления
+checkSavings.addEventListener('click', function(){
 	if (appData.savings == true) {
 		appData.savings = false;
 	} else {
@@ -111,103 +231,4 @@ percentValue.addEventListener('input', function() {
 	}
 });
 
-// Обязательные расходы
-expensesBtn.addEventListener('click', function() {
-	let sum = 0;
-
-	for ( let i = 0; i < expensesItem.length; i++ ) {
-		
-		if (typeof expensesItem[i+1] !== undefined) {
-			let a = expensesItem[i].value, //название обязательной статьи  
-				b = +expensesItem[++i].value; //сумма обязательной статьи  
-			console.log(a);
-			console.log(b);
-			if ((typeof(a)) === 'string' && 
-				(typeof(a)) != null && 
-				(typeof(b)) != null && 
-				a != '' && 
-				b != '' && 
-				a.length < 50 ) {
-				appData.expenses[a] = b;
-				sum += b;
-			} else {
-				i = i - 1;
-			}
-		}
-	}
-	expensesValue.textContent = sum;
-});
-
-// Дополнительные расходы
- optionalExpensesBtn.addEventListener('click', function() {
-
-	let sum = 0;
-
-	for ( let i = 0; i < optionalExpensesItem.length; i++ ) {
-
-		let a = +optionalExpensesItem[i].value;  //сумма обязательноЙ статьи  
-	
-		if ((typeof(a)) != null && (typeof(a)) === 'number' && a != '' ) {
-			appData.optionalExpenses[i] = a;
-			sum += a;
-		} else {
-			i = i - 1;
-		}
-	}
-	optionalExpensesValue.textContent = sum;
- });
-
-countBudgetBtn.addEventListener('click', function () {
-
-	appData.moneyPerDay = +(appData.budget / 30).toFixed(); //создаем свойство объекта 
-
-	dayBudgetValue.textContent = appData.moneyPerDay;
-
-	if (appData.moneyPerDay < 500) {
-		levelValue.textContent = "Ты бедный";
-	} else if (appData.moneyPerDay >= 500 && appData.moneyPerDay <= 2000) {
-		levelValue.textContent = "Ты средний класс";
-	} else if (appData.moneyPerDay > 2000) {
-		levelValue.textContent = "Ты богатый";
-	} else {
-		levelValue.textContent = "Error";
-	};
-});
 // console.log (appData);
-
-// Управление отображением элементами интерфейса
-document.addEventListener("DOMContentLoaded", function() {
-    //styles
-    /* let aside = document.getElementsByTagName('aside')[0],
-    main = document.getElementsByTagName('main')[0];
-    aside.style.top = '60px';
-    main.style.top = '60px'; */
-    
-    // active and deactive navigation panel
-    document.getElementById('header__trigger').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector('.header__trigger').classList.toggle('active'); 
-        document.querySelector('.nav').classList.toggle('active');
-        document.querySelector('main').classList.toggle('active'); 
-    });
-
-    // Tabs
-    // Documents - tabs
-    document.querySelectorAll('[data-tabs]').forEach(function(element){
-        element.addEventListener("click" , function(e) {
-            e.preventDefault();
-
-            // tabs
-            if(!element.classList.contains('active')) {
-                if(document.querySelector('.li-content.active'))
-                    document.querySelector(".li-content.active").classList.remove('active');
-                element.classList.add('active');
-            } 
-
-            //content
-            if(document.querySelector('.component.active'))
-                document.querySelector(".component.active").classList.remove('active');   
-            document.querySelector('.' + this.dataset.tabs).classList.add('active');
-        });
-    });
-});

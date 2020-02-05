@@ -25,14 +25,14 @@
     font-size: 0.875rem;
 }
 
+
 input[type='text'] {
-    height: 35px;
     width: calc((100%/2) - 4px);
     border-radius: var(--border-radius);
     background-color: var(--white);
     box-shadow: var(--shadow-lighter);
     border: none;
-    padding-left: 10px;
+    padding: 7px 10px;
     font-size: 0.875rem;
     &::placeholder {
         opacity: .6;
@@ -52,10 +52,10 @@ input[type='text'] {
     color: var(--white);
     font-weight: 300;
     cursor: pointer;
-    color: var(--white);
 
     &:hover {
         background-color: var(--bg-button-hover);
+        color: red;
     }
 }
 
@@ -158,9 +158,7 @@ a {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
+
     }
 }
 
@@ -297,9 +295,45 @@ main {
                 margin-top: 0;
             }
         }
+        .optional-income {
+            &__item {
+                border-radius: var(--border-radius);
+                padding: 5px 10px;
+                margin-bottom: 10px;
+                background: var(--white); 
+                width: fit-content;
+            }
+            form {
+                display: flex;
+                align-items: center;
+                .row {
+                    margin-bottom: 0;
+                }
+                input {
+                    width: fit-content;
+                    margin-bottom: 0;
+                }
+                .btn {
+                    margin-left: 10px;
+                }
+            }
+        }
 
-        .optionalexpenses-item {
-            width: calc((100%/3) - 4px);
+        .expenses {
+            form {
+                display: flex;
+                align-items: center;
+                .row {
+                    margin-bottom: 0;
+                }
+                input {
+                    width: fit-content;
+                    margin-bottom: 0;
+                }
+                .btn {
+                    margin-left: 10px;
+                }
+            }
         }
 
         .count-budget__button {
