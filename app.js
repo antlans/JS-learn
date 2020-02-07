@@ -11,16 +11,11 @@ let appData = {
 
 // Input
 let incomeItem              = document.querySelector(".income__item"); // Зарплата
-let optionalIncomeItem      = document.querySelector('.optional-income__item'); // Дополнительные доходы: Элемент
 let optionalIncomeList      = document.querySelector('.optional-income__list'); // Дополнительные доходы: Список
 let optionalIncomeBtn       = document.querySelector('.optional-income__form-btn'); // Дополнительные доходы: Кнопка добавления элемента 
-let optionalIncomeInput     = document.querySelector('.optional-income__form-input');
 
 let expensesList            = document.querySelector('.expenses__list'); // Получаем список для добавляемых элементов
-let expensesItem            = document.querySelector('.expenses__item'); // Получаем массив элементов из списка
-let expensesFormInput       = document.querySelector(".expenses__form-input"); // Элементы из формы создания
 let expensesFormBtn         = document.querySelector(".expenses__form-btn"); // Кнопка создания элементов
-let expensesBtn             = document.querySelector('.expenses__btn'); // Кнопка сложения результатов из списка
 
 // Result
 let budgetValue             = document.querySelector('.budget-value'); // Зарплата
@@ -91,12 +86,11 @@ function createElements(optionalIncomeList, name, value) {
     inputValue.type = 'text';
     inputValue.disabled = 'disabled';
 
-   
     newRow.appendChild(inputText);
     newRow.appendChild(inputValue);
 
     optionalIncomeList.appendChild(newRow);
-};
+}
 
 // Запуск процесса создания элемента для дополнительных доходов
 optionalIncomeBtn.addEventListener('click', function(e){
