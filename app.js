@@ -198,7 +198,7 @@ checkSavings.addEventListener('click', function(){
 });
 
 // Накопления
-sumValue.addEventListener('input', function() {
+sumValue.addEventListener('input', function(){
 	if (appData.savings == true) {
 
 		let sum = +sumValue.value;
@@ -225,4 +225,4 @@ percentValue.addEventListener('input', function() {
 	}
 });
 
-// console.log (appData);
+
