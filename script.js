@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
     main.style.top = '60px'; */
 
     'use strict';
-    // active and deactive navigation panel
+    // active and deactivated navigation panel
     document.getElementById('header__trigger').addEventListener('click', function(e) {
         e.preventDefault();
         document.querySelector('.header__trigger').classList.toggle('active'); 

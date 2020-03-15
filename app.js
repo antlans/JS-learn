@@ -1,5 +1,3 @@
-'use strict';
-
 // Главный объекта
 let appData = {
     income: '',                   // зарплата
@@ -10,9 +8,9 @@ let appData = {
 };
 
 // Input
-let incomeItem              = document.querySelector(".income__item"); // Зарплата
-let optionalIncomeList      = document.querySelector('.optional-income__list'); // Дополнительные доходы: Список
-let optionalIncomeBtn       = document.querySelector('.optional-income__form-btn'); // Дополнительные доходы: Кнопка добавления элемента 
+let incomeItem              = document.querySelector(".income__item"), // Зарплата
+    optionalIncomeList      = document.querySelector('.optional-income__list'), // Дополнительные доходы: Список
+    optionalIncomeBtn       = document.querySelector('.optional-income__form-btn'); // Дополнительные доходы: Кнопка добавления элемента 
 
 let expensesList            = document.querySelector('.expenses__list'); // Получаем список для добавляемых элементов
 let expensesFormBtn         = document.querySelector(".expenses__form-btn"); // Кнопка создания элементов
